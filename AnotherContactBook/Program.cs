@@ -50,7 +50,7 @@ builder.Services.AddAuthentication("Bearer");
 
 //builder.Services.AddDbContext<ContactDbContext>(options => options.UseInMemoryDatabase("ContactDB"));
 builder.Services.AddDbContext<ContactDbContext>(options => 
-        options.UseSqlServer(builder.Configuration.GetConnectionString("ContactsApiConnectionString")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("ContactsApiConnectionString")));
 
 builder.Services.AddAuthorization(options =>
 {
