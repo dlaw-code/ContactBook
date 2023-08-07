@@ -97,120 +97,30 @@ namespace AnotherContactBook.Controllers
                 return BadRequest("Wrong Password.");
             }
 
-            //GetMyId(loggedInUser.UserName) ;
-            //if(loggedInUser.Role != request.Role)
-            //{
-
-            //}
-
-            //if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-            //{
-            //    return BadRequest("Wrong Password.");
-            //}
-
+            
             string token = CreateToken(loggedInUser);
             
             return Ok(token);
         }
 
 
-
-
-
-
-
-        //// This method validates the JWT token and checks if the user ID claim matches the specified user ID
-        //private bool ValidateJwtToken(string token, string userId)
-        //{
-        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secure-secret-key"));
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-
-
-
-        //    try
-        //    {
-        //        // Validate the token and extract the user ID claim
-        //        var claims = tokenHandler.ValidateToken(token, new TokenValidationParameters
-        //        {
-        //            ValidateIssuerSigningKey = true,
-        //            IssuerSigningKey = key,
-        //            ValidateIssuer = true,
-        //            //ValidIssuer = "your-issuer",
-        //            ValidateAudience = true,
-        //            //ValidAudience = "your-audience",
-        //            ClockSkew = TimeSpan.Zero
-        //        }, out SecurityToken validatedToken);
-
-
-
-        //        var userIdClaim = claims.FindFirst("userId");
-
-
-
-        //        // Check if the user ID claim matches the specified user ID
-        //        if (userIdClaim != null && userIdClaim.Value == userId)
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
-
-
-
-        ////Photo Upload
-        //[HttpPut("UploadPhoto")]
-        //[Authorize(Policy = "RequireRegularRole")]
-        //// Assume that this method is called when a user wants to change their profile picture
-        //public string ChangeProfilePicture(string userId, IFormFile[] images, string token)
-        //{
-        //    // Verify that the user ID in the token matches the ID of the user whose profile picture is being changed
-        //    if (ValidateJwtToken(token, userId))
-        //    {
-        //        // Allow the profile picture to be changed
-        //        UpdateUserPhotosAsync(userId, images);
-
-        //        return "Done";
-
-        //    }
-        //    else
-        //    {
-        //        // Throw an exception or return an error message indicating that the user is not authorized to change the profile picture
-        //        throw new UnauthorizedAccessException("You are not authorized to change this user's profile picture.");
-        //    }
-
-
-        //}
-
-
-
-
-
         //Generate token for us
         private string CreateToken(AppUser user)
         {
-            
+
             List<Claim> claims = new List<Claim>
             {
-                
+
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, user.Role),
             };
 
-        
+
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 
-                             //The SigningCredentials contains the key and the Algorithms
+            //The SigningCredentials contains the key and the Algorithms
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
@@ -218,7 +128,7 @@ namespace AnotherContactBook.Controllers
                 //audience: "your-audience",
                 //issuer: "your-issuer",
                 expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds) ;
+                signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;

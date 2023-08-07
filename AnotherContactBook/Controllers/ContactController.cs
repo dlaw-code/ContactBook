@@ -50,8 +50,8 @@ namespace AnotherContactBook.Controllers
             {
                 id = Guid.NewGuid(),
                 FullName = addContactRequest.FullName,
-                Email = addContactRequest.Email,
                 PhoneNumber = addContactRequest.PhoneNumber,
+                Email = addContactRequest.Email,
                 Address = addContactRequest.Address,
             };
 
